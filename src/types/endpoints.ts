@@ -44,6 +44,12 @@ export interface MessageResponse {
     message: string;
 }
 
+export interface RunOptions {
+    onOutput?: (content: string) => void | Promise<void>;
+    onDone?: (event: SseDoneEvent) => void | Promise<void>;
+    onError?: (event: SseErrorEvent) => void | Promise<void>;
+}
+
 export interface InputRequest {
     input: string;
     isFile?: boolean;

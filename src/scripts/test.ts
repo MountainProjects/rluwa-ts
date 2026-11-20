@@ -9,7 +9,8 @@ const AvailableTests = [
     "run",
     "sse",
     "session",
-    "stream-session"
+    "stream-session",
+    "callbacks"
 ];
 
 if (!testName) {

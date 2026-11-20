@@ -17,6 +17,7 @@ export type {
     ExecutionEvent,
     InputRequest,
     MessageResponse,
+    RunOptions,
     SseDoneEvent,
     SseOutputEvent,
     SseFileEvent,

@@ -1,6 +1,6 @@
 {
   "name": "rluwa-ts",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "An unofficial TypeScript wrapper for the rluwa API",
   "license": "MIT",
   "author": "gdr",
@@ -45,7 +45,8 @@
     "test:run": "npm run build && node dist/scripts/test.js run",
     "test:sse": "npm run build && node dist/scripts/test.js sse",
     "test:session": "npm run build && node dist/scripts/test.js session",
-    "test:stream-session": "npm run build && node dist/scripts/test.js stream-session"
+    "test:stream-session": "npm run build && node dist/scripts/test.js stream-session",
+    "test:callbacks": "npm run build && node dist/scripts/test.js callbacks"
   },
   "engines": {
     "node": ">=18"

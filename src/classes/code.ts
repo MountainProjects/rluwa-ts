@@ -1,6 +1,6 @@
 import { RLuwa } from "./rluwa.js";
 import type { ParsedSyntaxTree } from "../types/ast.js";
-import type { BytecodeOptions, BytecodeResponse } from "../types/endpoints.js";
+import type { BytecodeOptions, BytecodeResponse, RunOptions } from "../types/endpoints.js";
 import type { Session } from "./session.js";
 
 export class Code {
@@ -40,7 +40,7 @@ export class Code {
     }
 
     /** Starts executing this Luau source. */
-    async run(stream: boolean = true): Promise<Session> {
-        return RLuwa.run(this.source, stream);
+    async run(streamOrOptions: boolean | RunOptions = true): Promise<Session> {
+        return RLuwa.run(this.source, streamOrOptions);
     }
 }

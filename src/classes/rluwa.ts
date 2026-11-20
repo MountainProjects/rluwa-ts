@@ -13,6 +13,7 @@ import type {
     InputRequest,
     InputResponse,
     MessageResponse,
+    RunOptions,
 } from "../types/endpoints.js";
 
 export abstract class RLuwa {
@@ -31,10 +32,13 @@ export abstract class RLuwa {
         @returns RunResponse
         @at https://api.rluwa.com/run
     */
-    static async run(code: string, stream: boolean = true): Promise<Session> {
+    static async run(code: string, streamOrOptions: boolean | RunOptions = true): Promise<Session> {
+        const stream = typeof streamOrOptions === "object" ? true : streamOrOptions;
         const response = await axios.post<{ token: string }>(`${this.URL}/run`, { code, stream });
         this.throwIfApiError(response.data, "POST /run", response.status, response);
-        return new Session(response.data.token);
+        const session = new Session(response.data.token);
+        if (typeof streamOrOptions === "object") session.startStreaming(streamOrOptions);
+        return session;
     }
 
     /**

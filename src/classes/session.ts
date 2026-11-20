@@ -6,7 +6,10 @@ import type {
     ExecutionEventStream,
     InputRequest,
     InputResponse,
-    MessageResponse
+    MessageResponse,
+    RunOptions,
+    SseDoneEvent,
+    SseErrorEvent
 } from "../types/endpoints.js";
 import type { RunResult } from "../types/run.js";
 
@@ -42,6 +45,33 @@ export class Session implements AsyncIterable<ExecutionEvent> {
 
         const event = parseEventFrame(buffer);
         if (event) yield event;
+    }
+
+    /** Starts background SSE consumption and dispatches run callbacks. */
+    startStreaming(options: RunOptions): void {
+        void this.consumeCallbacks(options);
+    }
+
+    private async consumeCallbacks(options: RunOptions): Promise<void> {
+        try {
+            let emittedContent = "";
+            for await (const event of this.events()) {
+                if (event.event === "output") {
+                    const content = event.data.content.startsWith(emittedContent)
+                        ? event.data.content.slice(emittedContent.length)
+                        : event.data.content;
+                    emittedContent = event.data.content;
+                    if (content) await options.onOutput?.(content);
+                }
+                if (event.event === "done") await options.onDone?.(event.data);
+                if (event.event === "error") await options.onError?.(event.data);
+            }
+        } catch (error) {
+            const event: SseErrorEvent = {
+                message: error instanceof Error ? error.message : String(error)
+            };
+            await options.onError?.(event);
+        }
     }
 
     [Symbol.asyncIterator](): AsyncGenerator<ExecutionEvent> {
