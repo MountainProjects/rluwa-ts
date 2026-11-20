@@ -1,0 +1,63 @@
+{
+  "name": "rluwa-ts",
+  "version": "1.0.0",
+  "description": "An unofficial TypeScript wrapper for the rluwa API",
+  "license": "MIT",
+  "author": "gdr",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MountainProjects/rluwa-ts.git"
+  },
+  "homepage": "https://github.com/MountainProjects/rluwa-ts#readme",
+  "bugs": {
+    "url": "https://github.com/MountainProjects/rluwa-ts/issues"
+  },
+  "keywords": [
+    "rluwa",
+    "luwa",
+    "api",
+    "wrapper",
+    "typescript",
+    "roblox"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
+    "clean-build": "npm run clean && npm run build",
+    "test": "npm run clean-build && node dist/scripts/test.js",
+    "test:ast": "npm run build && node dist/scripts/test.js ast",
+    "test:bytecode": "npm run build && node dist/scripts/test.js bytecode",
+    "test:format": "npm run build && node dist/scripts/test.js format",
+    "test:run": "npm run build && node dist/scripts/test.js run",
+    "test:sse": "npm run build && node dist/scripts/test.js sse",
+    "test:session": "npm run build && node dist/scripts/test.js session",
+    "test:stream-session": "npm run build && node dist/scripts/test.js stream-session"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "typescript": "^5.9.0"
+  },
+  "dependencies": {
+    "axios": "^1.21.1"
+  }
+}
